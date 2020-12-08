@@ -1,4 +1,4 @@
-import Data.List (find)
+import Data.List (find, nub)
 import Data.Strings (strReplace, strSplit)
 
 -- acc, pc
@@ -56,4 +56,4 @@ run program state trace (Ctrl False False) = run program newState (pc:trace) (Ct
 main = do
     str <- getContents
     let source = map (strSplit " ") $ lines str
-    print $ solve . map (map parse) . variants $ source
+    print $ solve . map (map parse) . nub . variants $ source
