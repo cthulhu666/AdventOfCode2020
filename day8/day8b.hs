@@ -19,6 +19,16 @@ variants xs = foldr f [] (zip [0..] xs)
         switch ("jmp", x) = ("nop", x)
         switch (x, y) = (x, y)
 
+-- better version of variants, courtesy of @scoiatael :]
+variants2 :: [(String, String)] -> [[(String, String)]]
+variants2 [] = [[]]
+variants2 (x:xs) = swapped ++ map (x:) (variants2 xs)
+  where
+        swapped = map (:xs) $ options x
+        options ("nop", y) = [("jmp", y)]
+        options ("jmp", y) = [("nop", y)]
+        options y = []
+
 parse :: (String, String) -> (State -> State)
 parse (x, y) = case x of
                     "nop" -> nop z
